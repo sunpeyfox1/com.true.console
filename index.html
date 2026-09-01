@@ -105,10 +105,14 @@
     <!-- Top Header Bar -->
     <header class="border-b border-slate-200 px-6 py-3.5 flex items-center justify-between bg-white sticky top-0 z-20 shadow-sm">
       <div class="flex items-center gap-3">
-        <img src="v.png" alt="True Console Logo" class="w-7 h-7 object-contain" onerror="this.src='https://via.placeholder.com/28'">
+        <!-- SVG Logo (No image break issue) -->
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
         <span class="font-medium text-lg text-slate-900 tracking-tight">True Console</span>
       </div>
-      <div id="step-indicator" class="hidden text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-md transition-all">
+      <!-- 'hidden' class removed to show Step 1 of 4 -->
+      <div id="step-indicator" class="text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-md transition-all">
         Step <span id="step-num" class="inline-block">1</span> of 4
       </div>
     </header>
@@ -119,7 +123,7 @@
       <!-- Dynamic User Pill -->
       <div id="email-pill" class="hidden mb-6 step-transition">
         <div class="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-3 py-1 text-xs text-slate-700 cursor-pointer hover:bg-slate-100 transition shadow-sm">
-          <img src="v.png" alt="User Avatar" class="w-4 h-4 rounded-full object-contain" onerror="this.src='https://via.placeholder.com/16'">
+          <div class="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center text-white text-[9px] font-bold">U</div>
           <span id="display-user-email" class="font-medium">dev.account@gmail.com</span>
           <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </div>
