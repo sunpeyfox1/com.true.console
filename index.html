@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=ai-legible&utm_source=comment&utm_medium=referral&utm_id=4e632e65-f8b0-4f1f-a928-18944cfc1aff
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+<meta name="hosting-provider" content="Netlify">
+<meta name="netlify-deploy" content="https://netlify.new/?utm_campaign=ai-legible&amp;utm_source=meta&amp;utm_medium=referral&amp;utm_id=4e632e65-f8b0-4f1f-a928-18944cfc1aff">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>True Console - Developer Portal</title>
+
+  <!-- 🟢 Google AdSense Auto-Ads Script -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4773185283995607" crossorigin="anonymous"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    body { font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif; overflow-x: hidden; }
+
+    /* Keyframe Animations */
+    @keyframes logoBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.05); }
+    }
+    .animate-logo-bounce { animation: logoBounce 2.5s infinite ease-in-out; }
+
+    @keyframes textFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    .animate-float { animation: textFloat 3.5s infinite ease-in-out; }
+
+    /* Smooth Step Transitions */
+    @keyframes stepIn {
+      0% { opacity: 0; transform: translateY(20px) scale(0.97); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .step-transition {
+      animation: stepIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Modal Pop-up Animation */
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.85) translateY(15px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .animate-modal {
+      animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* Absolute Center Modal Styling */
+    .center-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+    }
+
+    .center-modal-card {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10000;
+      width: 88%;
+      max-width: 330px;
+      animation: popCenter 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes popCenter {
+      0% { opacity: 0; transform: translate(-50%, -45%) scale(0.90); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    .fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .float-anim { animation: floatAnim 3s ease-in-out infinite; }
+    .pulse-subtle { animation: pulseSubtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatAnim {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-3px); }
+    }
+    @keyframes pulseSubtle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+  </style>
+</head>
+<body id="main-body" class="bg-slate-50/50 text-slate-800 min-h-screen flex flex-col justify-between relative select-none">
+
+  <!-- ================================================================= -->
+  <!--                      SETUP / WELCOME FLOW                         -->
+  <!-- ================================================================= -->
+  <div id="setup-container" class="min-h-screen flex flex-col justify-between">
+    <!-- Top Header Bar -->
+    <header class="border-b border-slate-200 px-6 py-3.5 flex items-center justify-between bg-white sticky top-0 z-20 shadow-sm">
+      <div class="flex items-center gap-3">
+        <!-- SVG Logo (No image break issue) -->
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <span class="font-medium text-lg text-slate-900 tracking-tight">True Console</span>
+      </div>
+      <!-- 'hidden' class removed to show Step 1 of 4 -->
+      <div id="step-indicator" class="text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-md transition-all">
+        Step <span id="step-num" class="inline-block">1</span> of 4
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-xl mx-auto w-full px-5 py-6 flex-1 flex flex-col justify-start">
+
+      <!-- Dynamic User Pill -->
+      <div id="email-pill" class="hidden mb-6 step-transition">
+        <div class="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-3 py-1 text-xs text-slate-700 cursor-pointer hover:bg-slate-100 transition shadow-sm">
+          <div class="w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center text-white text-[9px] font-bold">U</div>
+          <span id="display-user-email" class="font-medium">dev.account@gmail.com</span>
+          <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </div>
+      </div>
+
+      <!-- STEP 0: WELCOME SCREEN -->
+      <div id="step-0" class="space-y-6 py-4 text-center step-transition">
+        <div class="space-y-3">
+          <div class="w-20 h-20 mx-auto bg-blue-50 rounded-full flex items-center justify-center p-3 shadow-sm animate-logo-bounce">
+            <img src="v.png" alt="True Console Logo" class="w-12 h-12 object-contain" onerror="this.src='https://via.placeholder.com/48'">
+          </div>
+          <div class="space-y-1 animate-float">
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Welcome to True Console</h1>
+            <p class="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
+              Your all-in-one developer platform designed to build, publish, and scale Android applications effortlessly.
+            </p>
+          </div>
+        </div>
+
+        <!-- Why Choose True Console -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3 text-center transition-all hover:shadow-md">
+          <h2 class="text-xs font-bold text-blue-600 uppercase tracking-wider">Why Choose True Console?</h2>
+          <div class="space-y-2 text-xs text-slate-600 max-w-md mx-auto">
+            <p>⚡ <strong>Fast App Review:</strong> Publish your apps quickly without long waiting queues.</p>
+            <p>💰 <strong>Affordable & Accessible:</strong> Enjoy free developer setup options and transparent fees.</p>
+            <p>📊 <strong>Real-Time Analytics:</strong> Monitor downloads, user feedback, and crash reports instantly.</p>
+          </div>
+        </div>
+
+        <!-- What You Can Do -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-3 text-center">
+          <h2 class="text-xs font-bold text-slate-800 uppercase tracking-wider">What You Can Do With This Console</h2>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex flex-col items-center justify-center transition hover:bg-blue-50/40">
+              <span class="text-lg mb-1">🚀</span>
+              <strong class="text-slate-900 block">Publish Apps</strong>
+              <span class="text-slate-500 text-[11px]">Upload APKs/AABs easily</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex flex-col items-center justify-center transition hover:bg-blue-50/40">
+              <span class="text-lg mb-1">📊</span>
+              <strong class="text-slate-900 block">Track Analytics</strong>
+              <span class="text-slate-500 text-[11px]">Monitor app growth</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex flex-col items-center justify-center transition hover:bg-blue-50/40">
+              <span class="text-lg mb-1">🛡️</span>
+              <strong class="text-slate-900 block">Ensure Security</strong>
+              <span class="text-slate-500 text-[11px]">Automated policy checks</span>
+            </div>
+            <div class="p-3 bg-slate-50 rounded-lg border border-slate-100 flex flex-col items-center justify-center transition hover:bg-blue-50/40">
+              <span class="text-lg mb-1">💬</span>
+              <strong class="text-slate-900 block">Manage Users</strong>
+              <span class="text-slate-500 text-[11px]">Reply to store reviews</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- How to Join Platform -->
+        <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 p-5 rounded-xl border border-blue-100 space-y-3 text-center">
+          <h2 class="text-xs font-bold text-blue-900 uppercase tracking-wider">How to Join Our Platform?</h2>
+          <p class="text-xs text-blue-800 max-w-md mx-auto leading-relaxed">
+            Getting started is simple! Click <strong>"Get Started"</strong> below, select your developer type, complete your profile verification, and start publishing your apps right away.
+          </p>
+          <div class="pt-1">
+            <a href="https://t.me/trueconsole" target="_blank" class="inline-block px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-xs rounded-lg transition shadow-sm hover:scale-105">
+              Join Telegram Community
+            </a>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button onclick="startStep()" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition text-lg">
+            Get Started
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 1: Account Type Selection -->
+      <div id="step-1" class="hidden space-y-6">
+        <div class="space-y-1">
+          <h1 class="text-2xl font-normal text-slate-900">To get started, choose an account type</h1>
+          <p class="text-xs text-slate-600">
+            Who are you creating an account for? 
+            <a href="#" class="text-blue-600 hover:underline">Learn more about account types</a>
+          </p>
+        </div>
+
+        <div class="w-full h-36 bg-slate-50 rounded-2xl flex items-center justify-center relative overflow-hidden border border-slate-100 my-4">
+          <div class="flex items-center gap-4 animate-float">
+            <div class="w-12 h-12 bg-amber-400 rounded-xl transform -rotate-6"></div>
+            <div class="w-14 h-14 bg-blue-500 rounded-full"></div>
+            <div class="w-12 h-12 bg-emerald-500 rounded-xl transform rotate-6"></div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div onclick="selectAccountType('yourself')" id="card-yourself" class="p-4 border-2 border-blue-600 rounded-xl cursor-pointer bg-blue-50/10 transition-all transform hover:-translate-y-0.5 shadow-sm">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-slate-900">Yourself</h3>
+              <span class="text-xs font-semibold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">FREE ($0)</span>
+            </div>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Choose if you're creating an account for yourself, and you don't currently have an organisation or business.
+            </p>
+          </div>
+
+          <div onclick="selectAccountType('org')" id="card-org" class="p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-all transform hover:-translate-y-0.5">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-slate-900">An organisation</h3>
+              <span class="text-xs font-semibold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">$25 Registration Fee</span>
+            </div>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Choose if you're creating an account for an organisation or business. You'll need to verify official documents.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: VERIFICATION SECTION -->
+      <div id="step-2" class="hidden space-y-5">
+        <div class="space-y-1">
+          <h1 id="step2-title" class="text-2xl font-normal text-slate-900">Contact & Security Verification 🔰</h1>
+          <p class="text-xs text-slate-600">To protect our platform against spammers, real-time verification is required.</p>
+        </div>
+
+        <div class="space-y-4">
+          <!-- EMAIL VERIFICATION BOX -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <span>📧 Email Address *</span>
+                <span id="email-status" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-medium">Unverified</span>
+              </label>
+            </div>
+            <div class="flex gap-2">
+              <input type="email" id="input-email" placeholder="e.g. dev.account@gmail.com" class="flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-blue-600 transition">
+              <button onclick="sendEmailOTP()" id="btn-send-email-otp" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-lg text-xs font-semibold transition whitespace-nowrap shadow-sm">
+                Send Code
+              </button>
+            </div>
+            
+            <div id="email-otp-box" class="hidden pt-2 flex gap-2">
+              <input type="text" id="input-email-otp" placeholder="Enter OTP code" maxlength="6" class="flex-1 bg-white border border-blue-400 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none">
+              <button onclick="verifyEmailOTP()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white rounded-lg text-xs font-semibold transition shadow-sm">
+                Verify
+              </button>
+            </div>
+          </div>
+
+          <!-- PHONE NUMBER VERIFICATION BOX -->
+          <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-sm space-y-3">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                <span>📞 Phone Number *</span>
+                <span id="phone-status" class="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-medium">Unverified</span>
+              </label>
+            </div>
+
+            <div class="flex gap-2">
+              <select id="country-code" class="bg-slate-50 border border-slate-300 rounded-lg px-2 py-2 text-xs text-slate-800 focus:outline-none max-w-[120px]">
+                <option value="+880">🇧🇩 +880 (BD)</option>
+                <option value="+1">🇺🇸 +1 (USA)</option>
+                <option value="+44">🇬🇧 +44 (UK)</option>
+                <option value="+91">🇮🇳 +91 (IN)</option>
+                <option value="+92">🇵🇰 +92 (PK)</option>
+                <option value="+971">🇦🇪 +971 (UAE)</option>
+                <option value="+966">🇸🇦 +966 (KSA)</option>
+                <option value="+60">🇲🇾 +60 (MY)</option>
+              </select>
+
+              <input type="tel" id="input-phone" placeholder="1700000000" class="flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none focus:ring-1 focus:ring-blue-600 transition">
+              <button onclick="sendPhoneOTP()" id="btn-send-phone-otp" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-lg text-xs font-semibold transition whitespace-nowrap shadow-sm">
+                Send Code
+              </button>
+            </div>
+
+            <div id="phone-otp-box" class="hidden pt-2 flex gap-2">
+              <input type="text" id="input-phone-otp" placeholder="Enter OTP code" maxlength="6" class="flex-1 bg-white border border-blue-400 rounded-lg px-3 py-2 text-xs text-slate-900 focus:outline-none">
+              <button onclick="verifyPhoneOTP()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white rounded-lg text-xs font-semibold transition shadow-sm">
+                Verify
+              </button>
+            </div>
+          </div>
+
+          <div id="payment-req-card" class="hidden p-3.5 rounded-xl border border-slate-200 bg-white shadow-sm flex items-start gap-3">
+            <span class="text-base">💳</span>
+            <div>
+              <strong class="text-slate-900 block text-xs">Payment Verification</strong>
+              <p class="text-slate-500 text-[11px] mt-0.5">One-time USD $25 fee required for official organization profile setup.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Identity Verification & Developer Name -->
+      <div id="step-3" class="hidden space-y-5">
+        <div class="space-y-1">
+          <h1 class="text-2xl font-normal text-slate-900">Developer Profile Setup</h1>
+          <p class="text-xs text-slate-600 leading-relaxed">Set up your public identity for Android app distribution.</p>
+        </div>
+
+        <div class="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-2">
+          <div class="flex items-center gap-2 text-emerald-900 text-xs font-semibold">
+            <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+            Verified Information:
+          </div>
+          <ul class="text-xs text-emerald-800 space-y-1 pl-6 list-disc">
+            <li>Legal & Account Name</li>
+            <li>Verified Phone & Email Contact</li>
+          </ul>
+        </div>
+
+        <div class="pt-2">
+          <label class="block text-xs font-medium text-slate-700 mb-1">Developer Name *</label>
+          <p class="text-[11px] text-slate-500 mb-2">This name will be displayed publicly on True Console apps.</p>
+          <input type="text" id="dev-name-input" placeholder="e.g. Apex Software Works" class="w-full bg-white border border-blue-600 rounded-lg px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:ring-1 focus:ring-blue-600 transition">
+        </div>
+      </div>
+
+      <!-- STEP 4: Terms & Final Agreement & Payment Selection -->
+      <div id="step-4" class="hidden space-y-5">
+        <div class="space-y-1">
+          <h1 class="text-2xl font-normal text-slate-900">Terms & Developer Agreement</h1>
+          <p class="text-xs text-slate-600">Please review and accept our developer guidelines before completing registration.</p>
+        </div>
+
+        <div class="p-4 border border-slate-200 rounded-xl bg-white text-xs text-slate-600 space-y-3 shadow-sm">
+          <p class="leading-relaxed">
+            By continuing, you agree to the <a href="#" class="text-blue-600 hover:underline font-medium">True Console Developer Agreement</a> and acknowledge our anti-scam policy.
+          </p>
+          <div class="pt-3 border-t border-slate-200">
+            <label class="flex items-start gap-2.5 cursor-pointer text-slate-800 font-medium">
+              <input type="checkbox" id="terms-check" class="mt-0.5 w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300">
+              <span>I agree to the Terms of Service & Security Verification Policy.</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- ====== PAYMENT SELECTION SECTION ====== -->
+        <div id="payment-selection-container" class="p-4 border border-slate-200 rounded-xl bg-white text-xs text-slate-600 space-y-3 shadow-sm hidden">
+          <label class="font-bold text-slate-900 block">Select Payment Method:</label>
+
+          <!-- Option 1: bKash -->
+          <div onclick="switchPayment('bkash')" id="cardBkash" class="border-2 border-pink-600 bg-pink-50/40 p-3 rounded-lg cursor-pointer flex items-center justify-between transition">
+            <div class="flex items-center gap-2.5">
+              <input type="radio" name="payMethod" id="radioBkash" checked class="text-pink-600 focus:ring-pink-500">
+              <span class="font-semibold text-slate-900">bKash (Personal)</span>
+            </div>
+            <span class="text-pink-600 font-bold">bKash</span>
+          </div>
+
+          <!-- Option 2: Binance -->
+          <div onclick="switchPayment('binance')" id="cardBinance" class="border border-slate-200 bg-white p-3 rounded-lg cursor-pointer flex items-center justify-between transition">
+            <div class="flex items-center gap-2.5">
+              <input type="radio" name="payMethod" id="radioBinance" class="text-amber-500 focus:ring-amber-400">
+              <span class="font-semibold text-slate-900">Binance (USDT / Crypto)</span>
+            </div>
+            <span class="text-amber-600 font-bold">Binance</span>
+          </div>
+
+          <!-- bKash Dynamic Box -->
+          <div id="bkashBox" class="bg-slate-50 border border-dashed border-pink-400 p-3 rounded-lg space-y-2 mt-2">
+            <p class="text-[11px] text-slate-600">
+              📌 Please "Send Money" <strong>equivalent to $25 USD (BDT)</strong> to this personal bKash number:
+            </p>
+            <div class="bg-pink-600 text-white py-2 text-center rounded-md font-bold tracking-wider text-sm">
+              📱 01327696555
+            </div>
+            <label class="font-bold text-slate-700 block text-[11px]">bKash Transaction ID (TrxID):</label>
+            <input type="text" id="trxIdInput" placeholder="e.g. 9H8K7L6M5N" class="w-full bg-white border border-slate-300 rounded-md p-2 text-xs focus:outline-none focus:ring-1 focus:ring-pink-500">
+          </div>
+
+          <!-- Binance Dynamic Box -->
+          <div id="binanceBox" class="bg-slate-50 border border-dashed border-amber-400 p-3 rounded-lg space-y-2 mt-2 hidden">
+            <p class="text-[11px] text-slate-600">
+              🟡 <strong>Network:</strong> BNB Smart Chain (BEP20)<br>
+              Transfer <strong>$25.00 USDT</strong> to the following deposit address:
+            </p>
+            <div class="bg-amber-50 border border-amber-300 text-slate-800 p-2 text-center rounded-md font-mono text-[11px] break-all">
+              0xad6d64f88fb4d87749e81923fb4a970bc61cf1e1
+            </div>
+            <label class="font-bold text-slate-700 block text-[11px]">Transaction TxHash / ID:</label>
+            <input type="text" id="txHashInput" placeholder="Paste Binance TxHash here" class="w-full bg-white border border-slate-300 rounded-md p-2 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
+          </div>
+        </div>
+
+        <div id="payment-summary-box" class="p-3.5 bg-slate-100 rounded-xl text-xs text-slate-700 flex justify-between items-center shadow-sm">
+          <span>Registration Fee Amount:</span>
+          <strong id="fee-amount" class="text-slate-900 text-sm">$0.00 (Free Account)</strong>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Bottom Navigation Action Bar -->
+    <footer id="footer-bar" class="hidden border-t border-slate-200 py-4 px-6 bg-white sticky bottom-0 z-10">
+      <div class="max-w-xl mx-auto flex items-center justify-between">
+        <button id="back-btn" onclick="navigateStep(-1)" class="px-5 py-2 text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 active:scale-95 rounded-full transition shadow-xs">
+          Back
+        </button>
+        <div class="ml-auto">
+          <button id="next-btn" onclick="navigateStep(1)" class="px-6 py-2 text-xs font-semibold bg-blue-600 hover:bg-blue-700 active:scale-95 text-white rounded-full transition shadow-sm">
+            Continue
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+
+  <!-- Setup Alert Modal -->
+  <div id="custom-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm transition-all duration-300">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl border border-slate-100 animate-modal">
+      <div id="modal-icon-bg" class="w-14 h-14 mx-auto bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-2xl mb-4 shadow-inner">
+        <span id="modal-icon">📩</span>
+      </div>
+      <h3 id="modal-title" class="text-base font-bold text-slate-900">Verification Code</h3>
+      <div id="modal-body" class="text-xs text-slate-600 my-3 leading-relaxed">
+        Your OTP code is being processed.
+      </div>
+      <button onclick="closeModal('custom-modal')" class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold text-xs rounded-xl transition shadow-md">
+        Got it
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ==================== DASHBOARD SECTION (FROM 1.HTML) ==================== -->
+  <div id="dashboard-section" class="hidden">
+    <!-- ==================== SECTION 1: UPLOAD CONSOLE ==================== -->
+    <div id="upload-console-section" class="fade-in">
+      <!-- Top Navigation Header -->
+      <header class="sticky top-0 z-40 bg-[#0f172a]/95 backdrop-blur-md px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="v.png" alt="Logo" class="w-9 h-9 object-contain rounded-xl" onerror="this.src='https://via.placeholder.com/36/4f46e5/ffffff?text=V'">
+          <div class="flex flex-col justify-center">
+            <h1 class="font-bold text-sm text-white leading-tight tracking-wide">True Console</h1>
+            <span class="text-[9px] text-indigo-400 font-semibold tracking-wider uppercase">Developer Console</span>
+          </div>
+        </div>
+        
+        <div class="w-8 h-8 rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-200 shadow-inner">
+          D
+        </div>
+      </header>
+
+      <!-- Developer Console Body -->
+      <main class="p-4 max-w-lg mx-auto space-y-5">
+
+        <!-- Top Stats Card -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
+            <p class="text-xs text-slate-400">Total Uploaded Apps</p>
+            <h3 id="app-count" class="text-xl font-bold text-white mt-1">0</h3>
+          </div>
+          <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
+            <p class="text-xs text-slate-400">Security Status</p>
+            <h3 class="text-xs font-semibold text-emerald-400 mt-2 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> VirusTotal Engine
+            </h3>
+          </div>
+        </div>
+
+        <!-- App Upload Form Card -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-2xl">
+          <div class="border-b border-slate-800 pb-3">
+            <h2 class="text-base font-bold text-white">Publish New App</h2>
+            <p class="text-xs text-slate-400 mt-0.5">Fill in details to upload APK to TrueAppStore</p>
+          </div>
+
+          <form id="upload-form" onsubmit="event.preventDefault(); startScanSequence();" class="space-y-4 text-xs">
+            
+            <!-- App Title -->
+            <div>
+              <label class="block text-slate-300 font-medium mb-1">App Name *</label>
+              <input type="text" id="app-name-input" required placeholder="e.g. Photo Editor Pro" oninput="autoGeneratePackageName(this.value)" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition">
+            </div>
+
+            <!-- Package Name -->
+            <div>
+              <label class="block text-slate-300 font-medium mb-1">Package Name *</label>
+              <input type="text" id="package-name-input" required placeholder="com.company.appname" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition">
+            </div>
+            
+            <!-- Source Code / APK Link -->
+            <div class="mb-3">
+              <label class="block text-slate-300 font-medium mb-1">Source Code / APK Link</label>
+              <input type="url" id="source-link-input" required placeholder="https://github.com/... or Drive Link" class="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 text-xs focus:outline-none focus:border-indigo-500">
+            </div>
+
+            <!-- Type, Category & App Icon Trigger Buttons -->
+<div class="grid grid-cols-3 gap-2">
+  <!-- Type -->
+  <div>
+    <label class="block text-slate-300 font-medium mb-1">Type *</label>
+    <button type="button" onclick="openModal('typeModal')" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2.5 text-left text-slate-200 flex items-center justify-between transition cursor-pointer">
+      <span id="selected-type-text" class="font-medium truncate">Apps</span>
+      <span class="text-slate-500 text-[10px]">▼</span>
+    </button>
+  </div>
+
+  <!-- Category -->
+  <div>
+    <label class="block text-slate-300 font-medium mb-1">Category *</label>
+    <button type="button" onclick="openModal('categoryModal')" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2.5 text-left text-slate-200 flex items-center justify-between transition cursor-pointer">
+      <span id="selected-category-text" class="font-medium truncate">Tools</span>
+      <span class="text-slate-500 text-[10px]">▼</span>
+    </button>
+  </div>
+
+  <!-- App Icon Selector -->
+  <div>
+    <label class="block text-slate-300 font-medium mb-1">Icon *</label>
+    <input type="file" accept="image/*" required class="hidden" id="icon-input" onchange="handleIconSelect(this)">
+    <label for="icon-input" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2 text-slate-200 flex items-center justify-between cursor-pointer transition">
+      <div id="icon-preview-box" class="flex items-center gap-1.5 overflow-hidden">
+        <svg class="w-4 h-4 text-indigo-400 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
+        <span id="icon-status-text" class="font-medium truncate text-slate-400">Select</span>
+      </div>
+    </label>
+  </div>
+</div>
+          
+            <!-- Description -->
+            <div>
+              <label class="block text-slate-300 font-medium mb-1">Short Description *</label>
+              <textarea rows="3" required placeholder="Write brief details about your app..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition"></textarea>
+            </div>
+
+            <!-- APK Upload Box -->
+            <div>
+              <label class="block text-slate-300 font-medium mb-1">Upload APK File (.apk) *</label>
+              <div onclick="document.getElementById('apk-input').click()" class="border-2 border-dashed border-slate-800 hover:border-indigo-500/50 bg-slate-950 rounded-xl p-4 text-center cursor-pointer transition active:scale-[0.98]">
+                <svg class="w-6 h-6 mx-auto fill-current text-indigo-400 mb-1" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                <span id="upload-status-text" class="text-[11px] text-slate-400 block font-medium">Click to select APK file</span>
+                <span class="text-[9px] text-slate-600 block mt-0.5">Maximum file size: 100MB</span>
+                <input type="file" accept=".apk" required class="hidden" id="apk-input" onchange="handleFileSelect(this)">
+              </div>
+            </div>
+
+            <!-- Security Notice -->
+            <div class="p-3 bg-indigo-950/30 border border-indigo-800/30 rounded-xl flex items-start gap-2 text-[10px] text-indigo-300">
+              <span class="font-bold">🛡️ Security Check:</span>
+              <span>Uploaded files will automatically be scanned via VirusTotal API for Malware protection.</span>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submit-btn" class="w-full bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] text-white font-bold py-3 rounded-xl shadow-lg shadow-indigo-600/30 transition text-xs">
+              Submit App to Store
+            </button>
+
+          </form>
+        </div>
+
+      </main>
+
+      <!-- 🟢 Console Ad Placement Box -->
+      <div class="p-3 max-w-lg mx-auto w-full">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-2.5 text-center">
+          <span class="text-[9px] text-slate-600 uppercase tracking-widest block mb-1">Advertisement</span>
+          <div class="min-h-[50px] bg-slate-950 rounded-lg border border-slate-800/80 flex items-center justify-center overflow-hidden">
+            <ins class="adsbygoogle"
+                 style="display:block; width:100%; min-height:50px;"
+                 data-ad-client="ca-pub-4773185283995607"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== SECTION 2: APP DASHBOARD ==================== -->
+    <div id="app-dashboard-section" class="hidden fade-in">
+      <!-- Top Light Header -->
+      <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 py-2.5 shadow-sm flex items-center justify-between text-slate-800">
+          <div class="flex items-center gap-3">
+              <button onclick="switchToConsole()" class="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition active:scale-95">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              </button>
+              
+              <div class="flex items-center gap-2.5">
+                  <img src="v.png" alt="True Console Logo" class="w-8 h-8 object-contain float-anim" onerror="this.src='https://via.placeholder.com/32/4f46e5/ffffff?text=V'">
+                  <div>
+                      <h1 class="font-bold text-base leading-tight text-slate-900 flex items-center gap-2 tracking-tight">
+                          True
+                          <span class="px-2 py-0.5 text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-full font-semibold pulse-subtle">● Production</span>
+                      </h1>
+                      <p id="dash-app-subtext" class="text-[11px] text-slate-500 font-medium">Photo Editor Pro • com.company.photoeditor</p>
+                  </div>
+              </div>
+          </div>
+
+          <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-xs font-bold text-blue-600 shadow-sm">D</div>
+      </header>
+
+      <!-- Main App Dashboard Content -->
+      <main class="p-4 max-w-xl mx-auto w-full space-y-5 text-slate-800">
+
+          <!-- App Performance Quick Stats -->
+          <div class="grid grid-cols-3 gap-3">
+              <div class="p-3.5 bg-white border border-slate-200/80 rounded-2xl text-center shadow-sm hover:shadow-md transition">
+                  <p class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Downloads</p>
+                  <h3 class="text-base font-bold text-slate-900 mt-0.5" id="download-count">0</h3>
+                  <span class="text-[10px] text-slate-400 font-medium">New App</span>
+              </div>
+              <div class="p-3.5 bg-white border border-slate-200/80 rounded-2xl text-center shadow-sm hover:shadow-md transition">
+                  <p class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Rating</p>
+                  <h3 class="text-base font-bold text-amber-500 mt-0.5 flex items-center justify-center gap-1" id="rating-score">5.0 ★</h3>
+                  <span class="text-[10px] text-slate-400">1 review</span>
+              </div>
+              <div class="p-3.5 bg-white border border-slate-200/80 rounded-2xl text-center shadow-sm hover:shadow-md transition">
+                  <p class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">Active Version</p>
+                  <h3 class="text-base font-bold text-blue-600 mt-0.5" id="version-name">v1.0.0</h3>
+                  <span class="text-[10px] text-slate-400">Version Code: 1</span>
+              </div>
+          </div>
+
+          <!-- Release New Version Card -->
+          <div class="bg-white border border-slate-200/80 rounded-2xl p-5 space-y-4 shadow-sm">
+              <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div>
+                      <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+                          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                          Release New Version
+                      </h2>
+                      <p class="text-[11px] text-slate-500 mt-0.5">Publish an update to TrueAppStore</p>
+                  </div>
+                  <span class="px-2.5 py-1 text-[10px] font-semibold bg-blue-50 text-blue-600 border border-blue-200/60 rounded-lg">Update Mode</span>
+              </div>
+
+              <form class="space-y-3.5" onsubmit="event.preventDefault(); alert('Update Submitted!');">
+                  <div>
+                      <label class="block text-[11px] font-semibold text-slate-700 mb-1">Version Name *</label>
+                      <input type="text" placeholder="e.g. 1.0.1" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-600 focus:bg-white transition">
+                  </div>
+
+                  <div>
+                      <label class="block text-[11px] font-semibold text-slate-700 mb-1">Release Notes (What's New) *</label>
+                      <textarea rows="3" placeholder="- Bug fixes and performance improvements&#10;- New UI design added" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-600 focus:bg-white transition resize-none"></textarea>
+                  </div>
+
+                  <div>
+                      <label class="block text-[11px] font-semibold text-slate-700 mb-1">Upload New APK / AAB *</label>
+                      <div class="border-2 border-dashed border-slate-200 hover:border-blue-500 bg-slate-50/50 hover:bg-blue-50/20 rounded-xl p-4 text-center cursor-pointer transition">
+                          <svg class="w-6 h-6 text-slate-400 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 0115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                          <p class="text-xs text-slate-700 font-medium">Select updated .apk file</p>
+                          <p class="text-[10px] text-slate-400 mt-0.5">Maximum size: 100MB</p>
+                      </div>
+                  </div>
+
+                  <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white text-xs font-semibold rounded-xl transition shadow-md shadow-blue-500/20">
+                      Submit Update for Review
+                  </button>
+              </form>
+          </div>
+
+          <!-- 🟢 Dashboard Ad Placement Box -->
+          <div class="bg-white border border-slate-200/80 rounded-2xl p-2.5 text-center shadow-sm">
+            <span class="text-[9px] text-slate-400 uppercase tracking-widest block mb-1">Sponsored</span>
+            <div class="min-h-[50px] bg-slate-50 rounded-lg border border-slate-200/80 flex items-center justify-center overflow-hidden">
+              <ins class="adsbygoogle"
+                   style="display:block; width:100%; min-height:50px;"
+                   data-ad-client="ca-pub-4773185283995607"
+                   data-ad-format="auto"
+                   data-full-width-responsive="true"></ins>
+              <script>
+                   (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+            </div>
+          </div>
+
+          <!-- App Management Options -->
+          <div class="bg-white border border-slate-200/80 rounded-2xl p-4 space-y-1.5 shadow-sm">
+              <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Store Settings</h3>
+              
+              <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 transition group">
+                  <div class="flex items-center gap-3">
+                      <div class="p-2 rounded-lg bg-slate-100 text-slate-600 group-hover:text-blue-600 group-hover:bg-blue-50 transition">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                      </div>
+                      <div>
+                          <p class="text-xs font-semibold text-slate-800">Main Store Listing</p>
+                          <p class="text-[10px] text-slate-500">Edit app description, screenshots & icon</p>
+                      </div>
+                  </div>
+                  <span class="text-slate-400 text-xs">›</span>
+              </a>
+
+              <a href="#" class="flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-50 transition group">
+                  <div class="flex items-center gap-3">
+                      <div class="p-2 rounded-lg bg-rose-50 text-rose-600 transition">
+                          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                      </div>
+                      <div>
+                          <p class="text-xs font-semibold text-rose-600">Unpublish / Delete App</p>
+                          <p class="text-[10px] text-slate-400">Remove this app from TrueAppStore</p>
+                      </div>
+                  </div>
+                  <span class="text-slate-400 text-xs">›</span>
+              </a>
+          </div>
+
+      </main>
+
+      <footer class="text-center py-4 text-[10px] text-slate-400 font-medium">
+          True Console Developer Portal &copy; 2026
+      </footer>
+    </div>
+
+
+    <!-- ==================== CENTERED MODALS ==================== -->
+
+    <!-- 1. TYPE SELECTION MODAL -->
+    <div id="typeModal" class="hidden">
+      <div class="center-modal-overlay" onclick="closeModal('typeModal')"></div>
+      <div class="center-modal-card bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shadow-2xl text-white">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
+          <h3 class="text-xs font-bold text-white">Select Type</h3>
+          <button type="button" onclick="closeModal('typeModal')" class="text-slate-400 hover:text-white text-sm px-1">✕</button>
+        </div>
+        <div class="space-y-2 text-xs">
+          <button type="button" onclick="selectType('Apps', '📱')" class="w-full p-3 bg-slate-950/90 hover:bg-indigo-600/20 hover:border-indigo-500/50 border border-slate-800 rounded-xl flex items-center justify-between text-slate-200 transition">
+            <span class="font-medium">📱 Apps</span>
+            <span class="text-indigo-400 font-bold">✓</span>
+          </button>
+          <button type="button" onclick="selectType('Games', '🎮')" class="w-full p-3 bg-slate-950/90 hover:bg-indigo-600/20 hover:border-indigo-500/50 border border-slate-800 rounded-xl flex items-center justify-between text-slate-200 transition">
+            <span class="font-medium">🎮 Games</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CATEGORY SELECTION MODAL -->
+    <div id="categoryModal" class="hidden">
+      <div class="center-modal-overlay" onclick="closeModal('categoryModal')"></div>
+      <div class="center-modal-card bg-slate-900 border border-slate-800 rounded-2xl p-4 space-y-3 shadow-2xl text-white">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
+          <h3 class="text-xs font-bold text-white">Select Category</h3>
+          <button type="button" onclick="closeModal('categoryModal')" class="text-slate-400 hover:text-white text-sm px-1">✕</button>
+        </div>
+        <div id="category-options-list" class="space-y-2 text-xs max-h-60 overflow-y-auto pr-1">
+          <!-- Dynamically Populated -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SCANNING & VIRUSTOTAL PROCESS MODAL -->
+    <div id="scanModal" class="hidden">
+      <div class="center-modal-overlay"></div>
+      <div class="center-modal-card bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center space-y-4 shadow-2xl text-white">
+        <div class="relative w-14 h-14 mx-auto flex items-center justify-center">
+          <div class="absolute inset-0 rounded-full border-4 border-indigo-500/20 border-t-indigo-500 animate-spin"></div>
+          <span class="text-xl">🛡️</span>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white">Scanning APK File...</h3>
+          <p id="scan-status-subtitle" class="text-[11px] text-slate-400 mt-1">Connecting to VirusTotal v3 API...</p>
+        </div>
+        <div class="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden border border-slate-800">
+          <div id="scan-progress-bar" class="bg-indigo-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+      </div>
+    </div>
+
+     <!-- 4. UPLOAD SUCCESS MODAL -->
+    <div id="successModal" class="hidden">
+      <div class="center-modal-overlay" onclick="closeModal('successModal')"></div>
+      <div class="center-modal-card bg-slate-900 border border-emerald-500/30 rounded-2xl p-6 text-center space-y-4 shadow-2xl text-white">
+        <div class="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center mx-auto text-emerald-400 text-2xl shadow-lg shadow-emerald-500/10">
+          ✓
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white">App Submitted Successfully!</h3>
+          <p class="text-[11px] text-slate-400 mt-1">Passed 72 VirusTotal Security Engines. Pending Admin Review.</p>
+        </div>
+        <button type="button" onclick="goToDashboard()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl transition-all duration-300 text-xs shadow-lg shadow-emerald-600/20 active:scale-95">
+          View in Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================================================================= -->
+  <!--                             SCRIPTS                               -->
+  <!-- ================================================================= -->
+  <script>
+    let currentStep = 0;
+    let selectedType = 'yourself';
+    let isEmailVerified = false;
+    let isPhoneVerified = false;
+    let generatedEmailCode = "";
+    let generatedPhoneCode = "";
+
+    function showModal(icon, title, message, iconBgClass = "bg-blue-50 text-blue-600") {
+      document.getElementById('modal-icon').innerHTML = icon;
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-body').innerHTML = message;
+      document.getElementById('modal-icon-bg').className = `w-14 h-14 mx-auto rounded-full flex items-center justify-center text-2xl mb-4 shadow-inner ${iconBgClass}`;
+      document.getElementById('custom-modal').classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function startStep() {
+      document.getElementById('step-0').classList.add('hidden');
+      document.getElementById('step-indicator').classList.remove('hidden');
+      document.getElementById('email-pill').classList.remove('hidden');
+      document.getElementById('footer-bar').classList.remove('hidden');
+      showStep(1);
+    }
+
+    function selectAccountType(type) {
+      selectedType = type;
+      const cardYourself = document.getElementById('card-yourself');
+      const cardOrg = document.getElementById('card-org');
+      
+      if (type === 'yourself') {
+        cardYourself.className = "p-4 border-2 border-blue-600 rounded-xl cursor-pointer bg-blue-50/10 transition-all transform hover:-translate-y-0.5 shadow-sm";
+        cardOrg.className = "p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-all transform hover:-translate-y-0.5";
+      } else {
+        cardOrg.className = "p-4 border-2 border-blue-600 rounded-xl cursor-pointer bg-blue-50/10 transition-all transform hover:-translate-y-0.5 shadow-sm";
+        cardYourself.className = "p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-all transform hover:-translate-y-0.5";
+      }
+      updateDynamicContent();
+    }
+
+    function updateDynamicContent() {
+      const paymentCard = document.getElementById('payment-req-card');
+      const feeAmount = document.getElementById('fee-amount');
+      const paymentContainer = document.getElementById('payment-selection-container');
+
+      if (selectedType === 'org') {
+        paymentCard.classList.remove('hidden');
+        feeAmount.innerText = "$25.00 USD";
+        if(paymentContainer) paymentContainer.classList.remove('hidden');
+      } else {
+        paymentCard.classList.add('hidden');
+        feeAmount.innerText = "$0.00 (Free Account)";
+        if(paymentContainer) paymentContainer.classList.add('hidden');
+      }
+    }
+
+    function switchPayment(method) {
+      const cardBkash = document.getElementById('cardBkash');
+      const cardBinance = document.getElementById('cardBinance');
+      const radioBkash = document.getElementById('radioBkash');
+      const radioBinance = document.getElementById('radioBinance');
+      const bkashBox = document.getElementById('bkashBox');
+      const binanceBox = document.getElementById('binanceBox');
+
+      if (method === 'bkash') {
+        radioBkash.checked = true;
+        radioBinance.checked = false;
+        cardBkash.className = "border-2 border-pink-600 bg-pink-50/40 p-3 rounded-lg cursor-pointer flex items-center justify-between transition";
+        cardBinance.className = "border border-slate-200 bg-white p-3 rounded-lg cursor-pointer flex items-center justify-between transition";
+        bkashBox.classList.remove('hidden');
+        binanceBox.classList.add('hidden');
+      } else {
+        radioBinance.checked = true;
+        radioBkash.checked = false;
+        cardBinance.className = "border-2 border-amber-500 bg-amber-50/40 p-3 rounded-lg cursor-pointer flex items-center justify-between transition";
+        cardBkash.className = "border border-slate-200 bg-white p-3 rounded-lg cursor-pointer flex items-center justify-between transition";
+        binanceBox.classList.remove('hidden');
+        bkashBox.classList.add('hidden');
+      }
+    }
+
+    function sendEmailOTP() {
+      const emailInput = document.getElementById('input-email').value.trim().toLowerCase();
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      
+      if (!emailInput || !emailRegex.test(emailInput)) {
+        showModal('⚠️', 'Invalid Email', 'Please enter a valid and active email address.');
+        return;
+      }
+
+      const blockedDomains = ['mailinator.com', 'tempmail.com', '10minutemail.com', 'guerrillamail.com', 'yopmail.com', 'trashmail.com'];
+      const domain = emailInput.split('@')[1];
+
+      if (blockedDomains.includes(domain)) {
+        showModal('❌', 'Temporary Email Blocked', 'Temporary or fake email addresses are not allowed! Please use your primary email.');
+        return;
+      }
+
+      generatedEmailCode = Math.floor(100000 + Math.random() * 900000).toString();
+      document.getElementById('email-otp-box').classList.remove('hidden');
+
+      showModal(
+        '📢', 
+        'Demo Mode Notice', 
+        `System is currently running in 50% security demo validation mode.<br><br>Your test Email OTP: <strong class="text-blue-600 text-sm">${generatedEmailCode}</strong>`
+      );
+    }
+
+    function verifyEmailOTP() {
+      const userOtp = document.getElementById('input-email-otp').value.trim();
+      if (userOtp === generatedEmailCode && generatedEmailCode !== "") {
+        isEmailVerified = true;
+        document.getElementById('email-status').className = "text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-medium";
+        document.getElementById('email-status').innerText = "Verified";
+        document.getElementById('email-otp-box').classList.add('hidden');
+        document.getElementById('display-user-email').innerText = document.getElementById('input-email').value;
+        
+        showModal(
+          '✅', 
+          'Email Verified (Demo Mode)', 
+          'Email verification successful!<br><small class="text-slate-500">50% test validation completed. 100% secure backend will be integrated later.</small>',
+          'bg-emerald-50 text-emerald-600'
+        );
+      } else {
+        showModal('❌', 'Verification Failed', 'Invalid OTP code! Please check and try again.');
+      }
+    }
+
+    function sendPhoneOTP() {
+      const phoneInput = document.getElementById('input-phone').value.trim();
+      const countryCode = document.getElementById('country-code').value;
+
+      const countryRules = {
+        '+880': { regex: /^(13|14|15|16|17|18|19)\d{8}$/ },
+        '+1':   { regex: /^[2-9]\d{9}$/ },
+        '+44':  { regex: /^7\d{9}$/ },
+        '+91':  { regex: /^[6-9]\d{9}$/ },
+        '+92':  { regex: /^3\d{9}$/ },
+        '+971': { regex: /^5\d{8}$/ },
+        '+966': { regex: /^5\d{8}$/ },
+        '+60':  { regex: /^1\d{8,9}$/ }
+      };
+
+      if (countryRules[countryCode]) {
+        if (!countryRules[countryCode].regex.test(phoneInput)) {
+          showModal('❌', 'Invalid Phone Number', 'Invalid number provided! Please enter a valid mobile number.');
+          return;
+        }
+      } else {
+        if (!/^\d{8,12}$/.test(phoneInput)) {
+          showModal('❌', 'Invalid Phone Number', 'Please enter a valid phone number.');
+          return;
+        }
+      }
+
+      const isRepeated = /^(\d)\1+$/.test(phoneInput);
+      const isSequential = "0123456789876543210".includes(phoneInput);
+
+      if (isRepeated || isSequential) {
+        showModal('🚫', 'Fake Number Detected', 'Fake or temporary phone numbers are not allowed! Please enter your real number.');
+        return;
+      }
+
+      generatedPhoneCode = Math.floor(100000 + Math.random() * 900000).toString();
+      document.getElementById('phone-otp-box').classList.remove('hidden');
+
+      showModal(
+        '📢', 
+        'Demo Mode Notice', 
+        `System is currently running in 50% security demo validation mode.<br><br>Your test SMS OTP: <strong class="text-blue-600 text-sm">${generatedPhoneCode}</strong>`
+      );
+    }
+
+    function verifyPhoneOTP() {
+      const userOtp = document.getElementById('input-phone-otp').value.trim();
+      if (userOtp === generatedPhoneCode && generatedPhoneCode !== "") {
+        isPhoneVerified = true;
+        document.getElementById('phone-status').className = "text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-medium";
+        document.getElementById('phone-status').innerText = "Verified";
+        document.getElementById('phone-otp-box').classList.add('hidden');
+        
+        showModal(
+          '✅', 
+          'Phone Verified (Demo Mode)', 
+          'Phone number verification successful!<br><small class="text-slate-500">50% test validation completed. 100% secure backend will be integrated later.</small>',
+          'bg-emerald-50 text-emerald-600'
+        );
+      } else {
+        showModal('❌', 'Verification Failed', 'Invalid OTP code! Please try again.');
+      }
+    }
+
+    function navigateStep(direction) {
+      if (currentStep === 4 && direction === 1) {
+        const termsChecked = document.getElementById('terms-check').checked;
+        
+        if (!termsChecked) {
+          showModal('⚠️', 'Terms Required', 'Please accept the Terms of Service to proceed.');
+          return;
+        }
+
+        document.getElementById('modal-icon').innerHTML = "🎉";
+        document.getElementById('modal-title').innerText = "Registration Complete!";
+        document.getElementById('modal-body').innerHTML = "Congratulations! Your True Console Developer account setup is done.<br><br><span class='text-emerald-600 font-semibold'>Status: Ready to Access</span>";
+        document.getElementById('modal-icon-bg').className = "w-14 h-14 mx-auto rounded-full flex items-center justify-center text-3xl mb-4 shadow-inner bg-emerald-100 text-emerald-600 animate-bounce";
+        
+        const modalBtn = document.querySelector('#custom-modal button');
+        modalBtn.innerText = "View Dashboard 🚀";
+        modalBtn.onclick = function() {
+          document.getElementById('custom-modal').classList.add('hidden');
+          document.getElementById('setup-container').classList.add('hidden'); 
+          document.getElementById('dashboard-section').classList.remove('hidden');
+          document.getElementById('main-body').className = "bg-[#0b0f17] text-slate-100 font-sans min-h-screen pb-10 select-none flex flex-col justify-between transition-colors duration-300";
+        };
+
+        document.getElementById('custom-modal').classList.remove('hidden');
+        return;
+      }
+
+      currentStep += direction;
+      if (currentStep < 1) currentStep = 1;
+      if (currentStep > 4) currentStep = 4;
+      showStep(currentStep);
+    }
+
+    function showStep(step) {
+      currentStep = step;
+      document.getElementById('step-num').innerText = step;
+      for (let i = 1; i <= 4; i++) {
+        const stepEl = document.getElementById(`step-${i}`);
+        if (stepEl) {
+          if (i === step) {
+            stepEl.classList.remove('hidden');
+          } else {
+            stepEl.classList.add('hidden');
+          }
+        }
+      }
+    }
+
+    // Dashboard Script Functions
+    const categoryData = {
+      apps: ["Tools / Utility", "productivity", "education", "social communication", "photography", "music Audio"],
+      games: ["action rpg", "racing", "puzzle brain", "arcade", "casual games"]
+    };
+
+    let currentType = "Apps";
+    let uploadedCount = 0;
+    let lastAppName = "Photo Editor Pro";
+    let lastPkgName = "com.company.photoeditor";
+
+    const VIRUSTOTAL_API_KEY = "44505d847ea3449262c22716a5bc4dd7e485a9cc35eaecd6e0add8a7325948bc"; 
+
+    function openModal(id) {
+      if (id === 'categoryModal') renderCategoryOptions();
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function resetUploadForm() {
+      const form = document.getElementById('upload-form');
+      if (form) form.reset();
+
+      const apkStatus = document.getElementById('upload-status-text');
+      if (apkStatus) {
+        apkStatus.innerText = "Click to select APK file";
+        apkStatus.classList.remove('text-indigo-400');
+      }
+
+      const previewBox = document.getElementById('icon-preview-box');
+      if (previewBox) {
+        previewBox.style.opacity = '0';
+        setTimeout(() => {
+          previewBox.innerHTML = `
+            <svg class="w-4 h-4 text-indigo-400 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
+            <span id="icon-status-text" class="font-medium truncate text-slate-400">Select</span>
+          `;
+          previewBox.style.opacity = '1';
+        }, 200);
+      }
+    }
+
+    function selectType(type, icon) {
+      currentType = type;
+      document.getElementById('selected-type-text').innerText = `${icon} ${type}`;
+      closeModal('typeModal');
+      
+      const defaultCategory = categoryData[type][0];
+      document.getElementById('selected-category-text').innerText = defaultCategory;
+    }
+
+    function renderCategoryOptions() {
+      const listContainer = document.getElementById('category-options-list');
+      listContainer.innerHTML = '';
+
+      categoryData[currentType].forEach(cat => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = "w-full p-3 bg-slate-950/90 hover:bg-indigo-600/20 hover:border-indigo-500/50 border border-slate-800 rounded-xl flex items-center justify-between text-slate-200 transition text-left";
+        btn.innerHTML = `<span class="font-medium">${cat}</span>`;
+        btn.onclick = () => {
+          document.getElementById('selected-category-text').innerText = cat;
+          closeModal('categoryModal');
+        };
+        listContainer.appendChild(btn);
+      });
+    }
+
+    function autoGeneratePackageName(val) {
+      const cleanVal = val.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const pkgInput = document.getElementById('package-name-input');
+      pkgInput.value = cleanVal.length > 0 ? `com.app.${cleanVal}` : '';
+      lastAppName = val || "Photo Editor Pro";
+      lastPkgName = pkgInput.value || "com.company.photoeditor";
+    }
+
+    function handleFileSelect(input) {
+      if (input.files.length > 0) {
+        document.getElementById('upload-status-text').innerText = "Selected: " + input.files[0].name;
+        document.getElementById('upload-status-text').classList.add('text-indigo-400');
+      }
+    }
+
+    function handleIconSelect(input) {
+      if (input.files.length > 0) {
+        document.getElementById('icon-status-text').innerText = input.files[0].name;
+      }
+    }
+
+    async function startScanSequence() {
+      openModal('scanModal');
+      const progressBar = document.getElementById('scan-progress-bar');
+      const statusText = document.getElementById('scan-status-subtitle');
+      
+      progressBar.style.width = '0%';
+      statusText.innerText = "Generating File Hash & SHA-256 Signature...";
+
+      let progress = 0;
+      const steps = [
+        "Connecting to VirusTotal v3 API...",
+        "Checking Malware & Trojan Signatures...",
+        "Analyzing Package Permissions...",
+        "Verifying SSL & SHA-256 Signatures...",
+        "Finalizing Verification Status..."
+      ];
+
+      let stepIdx = 0;
+      const interval = setInterval(() => {
+        progress += 20;
+        progressBar.style.width = progress + '%';
+
+        if(stepIdx < steps.length) {
+          statusText.innerText = steps[stepIdx];
+          stepIdx++;
+        }
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            closeModal('scanModal');
+            openModal('successModal');
+
+            if (typeof saveAppToFirestore === 'function') {
+              saveAppToFirestore(lastAppName, lastPkgName, currentType, document.getElementById('selected-category-text').innerText);
+            }
+
+            uploadedCount++;
+            document.getElementById('app-count').innerText = uploadedCount;
+          }, 400);
+        }
+      }, 500);
+    }
+
+    function goToDashboard() {
+      closeModal('successModal');
+      document.getElementById('upload-console-section').classList.add('hidden');
+      document.getElementById('app-dashboard-section').classList.remove('hidden');
+      document.getElementById('main-body').className = "bg-slate-50 text-slate-800 font-sans min-h-screen pb-10 select-none flex flex-col justify-between transition-colors duration-500";
+      
+      document.getElementById('dash-app-subtext').innerText = `${lastAppName} • ${lastPkgName}`;
+      
+      resetUploadForm();
+    }
+
+    function switchToConsole() {
+      document.getElementById('app-dashboard-section').classList.add('hidden');
+      document.getElementById('upload-console-section').classList.remove('hidden');
+      document.getElementById('main-body').className = "bg-[#0b0f17] text-slate-100 font-sans min-h-screen pb-10 select-none flex flex-col justify-between transition-colors duration-300";
+    }
+  </script>
+
+  <!-- Firebase Firestore Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBnxRidYI_cL75x4JKFjdbDSsTNrenLzBs",
+      authDomain: "may-fist-app.firebaseapp.com",
+      projectId: "may-fist-app",
+      storageBucket: "may-fist-app.firebasestorage.app",
+      messagingSenderId: "29389027661",
+      appId: "1:29389027661:web:7b3c5d39207c415af2df04",
+      measurementId: "G-VGWLQQHQE8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.saveAppToFirestore = async function(appName, pkgName, appType, category) {
+      try {
+        await addDoc(collection(db, "apps"), {
+          appName: appName,
+          packageName: pkgName,
+          type: appType,
+          category: category,
+          sourceLink: document.getElementById('source-link-input').value,
+          status: "Pending",
+          createdAt: serverTimestamp()
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    };
+  </script>
+</body>
+</html>
