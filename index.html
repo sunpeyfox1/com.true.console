@@ -510,38 +510,38 @@
             </div>
 
             <!-- Type, Category & App Icon Trigger Buttons -->
-            <div class="grid grid-cols-3 gap-2">
-              <!-- Type -->
-              <div>
-                <label class="block text-slate-300 font-medium mb-1">Type *</label>
-                <button type="button" onclick="openModal('typeModal')" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2.5 text-left text-slate-200 flex items-center justify-between transition">
-                  <span id="selected-type-text" class="font-medium truncate">📱 Apps</span>
-                  <span class="text-slate-500 text-[10px]">▼</span>
-                </button>
-              </div>
+<div class="grid grid-cols-3 gap-2">
+  <!-- Type -->
+  <div>
+    <label class="block text-slate-300 font-medium mb-1">Type *</label>
+    <button type="button" onclick="openModal('typeModal')" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2.5 text-left text-slate-200 flex items-center justify-between transition cursor-pointer">
+      <span id="selected-type-text" class="font-medium truncate">Apps</span>
+      <span class="text-slate-500 text-[10px]">▼</span>
+    </button>
+  </div>
 
-              <!-- Category -->
-              <div>
-                <label class="block text-slate-300 font-medium mb-1">Category *</label>
-                <button type="button" onclick="openModal('categoryModal')" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2.5 text-left text-slate-200 flex items-center justify-between transition">
-                  <span id="selected-category-text" class="font-medium truncate">⚡ Tools</span>
-                  <span class="text-slate-500 text-[10px]">▼</span>
-                </button>
-              </div>
+  <!-- Category -->
+  <div>
+    <label class="block text-slate-300 font-medium mb-1">Category *</label>
+    <button type="button" onclick="openModal('categoryModal')" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2.5 text-left text-slate-200 flex items-center justify-between transition cursor-pointer">
+      <span id="selected-category-text" class="font-medium truncate">Tools</span>
+      <span class="text-slate-500 text-[10px]">▼</span>
+    </button>
+  </div>
 
-              <!-- App Icon Selector -->
-              <div>
-                <label class="block text-slate-300 font-medium mb-1">Icon *</label>
-                <div onclick="document.getElementById('icon-input').click()" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2 text-slate-200 flex items-center justify-between cursor-pointer transition">
-                  <div id="icon-preview-box" class="flex items-center gap-1.5 overflow-hidden">
-                    <svg class="w-4 h-4 text-indigo-400 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
-                    <span id="icon-status-text" class="font-medium truncate text-slate-400">Select</span>
-                  </div>
-                  <input type="file" accept="image/*" required class="hidden" id="icon-input" onchange="handleIconSelect(this)">
-                </div>
-              </div>
-            </div>
-
+  <!-- App Icon Selector -->
+  <div>
+    <label class="block text-slate-300 font-medium mb-1">Icon *</label>
+    <input type="file" accept="image/*" required class="hidden" id="icon-input" onchange="handleIconSelect(this)">
+    <label for="icon-input" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2 text-slate-200 flex items-center justify-between cursor-pointer transition">
+      <div id="icon-preview-box" class="flex items-center gap-1.5 overflow-hidden">
+        <svg class="w-4 h-4 text-indigo-400 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"/></svg>
+        <span id="icon-status-text" class="font-medium truncate text-slate-400">Select</span>
+      </div>
+    </label>
+  </div>
+</div>
+          
             <!-- Description -->
             <div>
               <label class="block text-slate-300 font-medium mb-1">Short Description *</label>
