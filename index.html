@@ -105,7 +105,7 @@
     <!-- Top Header Bar -->
     <header class="border-b border-slate-200 px-6 py-3.5 flex items-center justify-between bg-white sticky top-0 z-20 shadow-sm">
       <div class="flex items-center gap-3">
-        <img src="v.png" alt="True Console Logo" class="w-7 h-7 object-contain" onerror="this.src='https://via.placeholder.com/28'">
+        <img src="V.png" alt="True Console Logo" class="w-7 h-7 object-contain" onerror="this.src='https://via.placeholder.com/28'">
         <span class="font-medium text-lg text-slate-900 tracking-tight">True Console</span>
       </div>
       <div id="step-indicator" class="hidden text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-md transition-all">
@@ -119,7 +119,7 @@
       <!-- Dynamic User Pill -->
       <div id="email-pill" class="hidden mb-6 step-transition">
         <div class="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-full px-3 py-1 text-xs text-slate-700 cursor-pointer hover:bg-slate-100 transition shadow-sm">
-          <img src="v.png" alt="User Avatar" class="w-4 h-4 rounded-full object-contain" onerror="this.src='https://via.placeholder.com/16'">
+          <img src="V.png" alt="User Avatar" class="w-4 h-4 rounded-full object-contain" onerror="this.src='https://via.placeholder.com/16'">
           <span id="display-user-email" class="font-medium">dev.account@gmail.com</span>
           <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
         </div>
@@ -744,12 +744,12 @@
           <button type="button" onclick="closeModal('typeModal')" class="text-slate-400 hover:text-white text-sm px-1">✕</button>
         </div>
         <div class="space-y-2 text-xs">
-          <button type="button" onclick="selectType('Apps', '📱')" class="w-full p-3 bg-slate-950/90 hover:bg-indigo-600/20 hover:border-indigo-500/50 border border-slate-800 rounded-xl flex items-center justify-between text-slate-200 transition">
-            <span class="font-medium">📱 Apps</span>
+          <button type="button" onclick="selectType('Apps', '')" class="w-full p-3 bg-slate-950/90 hover:bg-indigo-600/20 hover:border-indigo-500/50 border border-slate-800 rounded-xl flex items-center justify-between text-slate-200 transition">
+            <span class="font-medium"> Apps</span>
             <span class="text-indigo-400 font-bold">✓</span>
           </button>
-          <button type="button" onclick="selectType('Games', '🎮')" class="w-full p-3 bg-slate-950/90 hover:bg-indigo-600/20 hover:border-indigo-500/50 border border-slate-800 rounded-xl flex items-center justify-between text-slate-200 transition">
-            <span class="font-medium">🎮 Games</span>
+          <button type="button" onclick="selectType('Games', '')" class="w-full p-3 bg-slate-950/90 hover:bg-indigo-600/20 hover:border-indigo-500/50 border border-slate-800 rounded-xl flex items-center justify-between text-slate-200 transition">
+            <span class="font-medium"> Games</span>
           </button>
         </div>
       </div>
@@ -1054,8 +1054,8 @@
 
     // Dashboard Script Functions
     const categoryData = {
-      Apps: ["⚡ Tools / Utility", "🎨 Productivity", "📚 Education", "🌐 Social & Communication", "📸 Photography", "🎵 Music & Audio"],
-      Games: ["⚔️ Action & RPG", "🏎️ Racing", "🧩 Puzzle & Brain", "🎯 Arcade", "🕹️ Casual Games"]
+      Apps: [" Tools / Utility", " Productivity", " Education", " Social & Communication", " Photography", " Music & Audio"],
+      Games: [" Action & RPG", " Racing", " Puzzle & Brain", " Arcade", " Casual Games"]
     };
 
     let currentType = "Apps";
