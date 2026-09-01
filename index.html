@@ -471,7 +471,7 @@
         <!-- Top Stats Card -->
         <div class="grid grid-cols-2 gap-3">
           <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
-            <p class="text-xs text-slate-400">Total Uploaded Apps</p>
+            <p class="text-xs text-slate-400">Total Uploaded apps</p>
             <h3 id="app-count" class="text-xl font-bold text-white mt-1">0</h3>
           </div>
           <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
@@ -515,7 +515,7 @@
               <div>
                 <label class="block text-slate-300 font-medium mb-1">Type *</label>
                 <button type="button" onclick="openModal('typeModal')" class="w-full bg-slate-950 border border-slate-800 hover:border-indigo-500/60 rounded-xl px-2.5 py-2.5 text-left text-slate-200 flex items-center justify-between transition">
-                  <span id="selected-type-text" class="font-medium truncate">📱 Apps</span>
+                  <span id="selected-type-text" class="font-medium truncate"> apps</span>
                   <span class="text-slate-500 text-[10px]">▼</span>
                 </button>
               </div>
@@ -1054,11 +1054,11 @@
 
     // Dashboard Script Functions
     const categoryData = {
-      Apps: [" Tools / Utility", " Productivity", " Education", " Social & Communication", " Photography", " Music & Audio"],
-      Games: [" Action & RPG", " Racing", " Puzzle & Brain", " Arcade", " Casual Games"]
+      apps: [" tools / utility", " productivity", " education", " social and communication", " photography", " music and audio"],
+      games: [" action and rpg", " racing", " puzzle and brain", " arcade", " casual games"]
     };
 
-    let currentType = "Apps";
+    let currentType = "apps";
     let uploadedCount = 0;
     let lastAppName = "Photo Editor Pro";
     let lastPkgName = "com.company.photoeditor";
